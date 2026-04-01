@@ -5,6 +5,47 @@
 import argparse
 from pathlib import Path
 
+extensions = {
+    # Code
+    ".py": "code",
+    ".js": "code",
+    ".html": "code",
+    ".css": "code",
+    ".cpp": "code",
+    ".java": "code",
+
+    # Documents
+    ".txt": "documents",
+    ".pdf": "documents",
+    ".docx": "documents",
+    ".doc": "documents",
+    ".xlsx": "documents",
+    ".pptx": "documents",
+
+    # Images
+    ".jpg": "images",
+    ".jpeg": "images",
+    ".png": "images",
+    ".gif": "images",
+    ".svg": "images",
+
+    # Audio
+    ".mp3": "audio",
+    ".wav": "audio",
+    ".flac": "audio",
+
+    # Video
+    ".mp4": "video",
+    ".mkv": "video",
+    ".avi": "video",
+
+    # Archives
+    ".zip": "archives",
+    ".tar": "archives",
+    ".gz": "archives",
+    ".rar": "archives"
+}
+
 ignore_files = [".gitignore", "organiser.py"]
 
 parser = argparse.ArgumentParser()
@@ -21,4 +62,5 @@ def get_files(directory):
             files.append(item)
     return files
 
-print(get_files(directory))
+def get_category(file):
+    return extensions.get(file.suffix.lower(), "misc")
