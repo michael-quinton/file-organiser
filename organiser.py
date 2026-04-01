@@ -2,7 +2,7 @@
 # Scan directory for files
 # Move each file into a subfolder based on its category
 
-import argparse
+import argparse, shutil
 from pathlib import Path
 
 extensions = {
@@ -64,3 +64,13 @@ def get_files(directory):
 
 def get_category(file):
     return extensions.get(file.suffix.lower(), "misc")
+
+def organise_files(directory):
+    files = get_files(directory)
+    for file in files:
+        category = get_category(file)
+        folder = directory / category
+        folder.mkdir(exist_ok=True)
+        shutil.move(src=file, dst=folder)
+
+organise_files(directory)
