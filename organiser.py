@@ -1,17 +1,24 @@
 # Accept a directory as a CLI argument
-# Scane directory for files
+# Scan directory for files
 # Move each file into a subfolder based on its category
 
 import argparse
 from pathlib import Path
 
-extensions = {
-    ".py": "code",
-    ".txt": "documents",
-    ".jpg": "images"
-}
+ignore_files = [".gitignore", "organiser.py"]
 
 parser = argparse.ArgumentParser()
 parser.add_argument("directory", nargs="?", type=Path, default=Path.cwd())
 args = parser.parse_args()
-print(args.directory)
+directory = args.directory
+
+def get_files(directory):
+    files = []
+    for item in directory.iterdir():
+        if item.name in ignore_files:
+            continue
+        if item.is_file():
+            files.append(item)
+    return files
+
+print(get_files(directory))
