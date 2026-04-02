@@ -71,7 +71,7 @@ def get_unique_name(destination):
     increment = 1
 
     while True:
-        new_name = f"{destination.stem}({counter}){destination.suffix}"
+        new_name = f"{destination.stem}({increment}){destination.suffix}"
         new_path = destination.parent / new_name
 
         if not new_path.exists():
