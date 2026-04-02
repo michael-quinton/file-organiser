@@ -78,13 +78,21 @@ def get_unique_name(destination):
             return new_path
 
         increment += 1
-        
+
 def organise_files(directory):
     files = get_files(directory)
     for file in files:
         category = get_category(file)
         folder = directory / category
         folder.mkdir(exist_ok=True)
-        shutil.move(src=file, dst=folder)
+        destination = folder / file.name
+        destination = get_unique_name(destination)
+        shutil.move(src=file, dst=destination)
+        print(f"Moved {file.name} -> {destination}")
 
-organise_files(directory)
+def main():
+    directory = parse_directory()
+    organise_files(directory)
+
+if __name__ == "__main__":
+    main()
