@@ -88,7 +88,8 @@ def organise_files(directory):
         destination = folder / file.name
         destination = get_unique_name(destination)
         shutil.move(src=file, dst=destination)
-        print(f"Moved {file.name} -> {destination}")
+        relative_path = destination.relative_to(directory)
+        print(f"Moved {file.name} -> {relative_path}")
 
 def main():
     directory = parse_directory()
