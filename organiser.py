@@ -48,11 +48,18 @@ extensions = {
 
 ignore_files = [".gitignore", "organiser.py"]
 
-parser = argparse.ArgumentParser()
-parser.add_argument("directory", nargs="?", type=Path, default=Path.cwd())
-args = parser.parse_args()
-directory = args.directory
+def directory_path():
 
+    parser = argparse.ArgumentParser(description="Organise files in a directory by category")
+    parser.add_argument("directory", nargs="?", type=Path, default=Path.cwd())
+    args = parser.parse_args()
+    directory = args.directory
+
+    if not directory.exists() or not directory.is_dir():
+        print(f"Error: '{directory}' is not a valid directory.")
+        raise SystemExit(1)
+    return directory
+    
 def get_files(directory):
     files = []
     for item in directory.iterdir():
