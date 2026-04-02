@@ -61,13 +61,7 @@ def directory_path():
     return directory
     
 def get_files(directory):
-    files = []
-    for item in directory.iterdir():
-        if item.name in ignore_files:
-            continue
-        if item.is_file():
-            files.append(item)
-    return files
+    return [item for item in directory.iterdir() if item.is_file() and item.name not in ignore_files]
 
 def get_category(file):
     return extensions.get(file.suffix.lower(), "misc")
