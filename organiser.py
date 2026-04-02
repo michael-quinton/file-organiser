@@ -48,7 +48,7 @@ extensions = {
 
 ignore_files = [".gitignore", "organiser.py"]
 
-def directory_path():
+def parse_directory():
     parser = argparse.ArgumentParser(description="Organise files in a directory by category")
     parser.add_argument("directory", nargs="?", type=Path, default=Path.cwd())
     args = parser.parse_args()
