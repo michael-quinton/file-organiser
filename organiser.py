@@ -51,12 +51,14 @@ ignore_files = [".gitignore", "organiser.py"]
 def parse_directory():
     parser = argparse.ArgumentParser(description="Organise files in a directory by category")
     parser.add_argument("directory", nargs="?", type=Path, default=Path.cwd())
+    parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
     directory = args.directory
+    dry_run = args.dry_run
     if not directory.exists() or not directory.is_dir():
         print(f"Error: '{directory}' is not a valid directory.")
         raise SystemExit(1)
-    return directory
+    return directory, dry_run
     
 def get_files(directory):
     return [item for item in directory.iterdir() if item.is_file() and item.name not in ignore_files]
@@ -79,21 +81,26 @@ def get_unique_name(destination):
 
         increment += 1
 
-def organise_files(directory):
+def organise_files(directory, dry_run):
     files = get_files(directory)
     for file in files:
         category = get_category(file)
         folder = directory / category
-        folder.mkdir(exist_ok=True)
+        if not dry_run:
+            folder.mkdir(exist_ok=True)
         destination = folder / file.name
         destination = get_unique_name(destination)
-        shutil.move(src=file, dst=destination)
+        if not dry_run:
+            shutil.move(src=file, dst=destination)
         relative_path = destination.relative_to(directory)
-        print(f"Moved {file.name} -> {relative_path}")
+        if not dry_run:
+            print(f"Moved {file.name} -> {relative_path}")
+        else:
+            print(f"Would move {file.name} -> {relative_path}")
 
 def main():
-    directory = parse_directory()
-    organise_files(directory)
+    directory, dry_run = parse_directory()
+    organise_files(directory, dry_run)
 
 if __name__ == "__main__":
     main()
