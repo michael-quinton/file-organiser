@@ -81,16 +81,18 @@ def parse_directory():
         default=Path.cwd(),
     )
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--undo", action="store_true")
 
     args = parser.parse_args()
     directory = args.directory
     dry_run = args.dry_run
+    undo = args.undo
 
     if not directory.exists() or not directory.is_dir():
         print(f"Error: '{directory}' is not a valid directory.")
         raise SystemExit(1)
 
-    return directory, dry_run
+    return directory, dry_run, undo
 
 
 def get_files(directory):
@@ -151,10 +153,11 @@ def organise_files(directory, dry_run):
 
 def main():
     """Run the file organiser."""
-    directory, dry_run = parse_directory()
-    load_extensions()
-    organise_files(directory, dry_run)
-
+    directory, dry_run, undo = parse_directory()
+    if not undo:
+        load_extensions()
+        organise_files(directory, dry_run)
+    
 
 if __name__ == "__main__":
     main()
