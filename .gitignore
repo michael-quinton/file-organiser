@@ -3,5 +3,6 @@
 
 # Allow these files/folder
 !organiser.py
+!config.yaml
 !.gitignore
 !README.md
