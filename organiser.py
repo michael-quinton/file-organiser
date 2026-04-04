@@ -2,7 +2,7 @@
 # Scan directory for files
 # Move each file into a subfolder based on its category
 
-import argparse, shutil
+import argparse, shutil, yaml
 from pathlib import Path
 
 extensions = {
@@ -46,7 +46,19 @@ extensions = {
     ".rar": "archives"
 }
 
-ignore_files = [".gitignore", "organiser.py"]
+def load_extensions():
+    config = Path("./config.yaml")
+    if config.is_file():
+        extensions.clear()
+
+        with open("./config.yaml", "r") as file:
+            data = yaml.safe_load(file)
+
+        for key, values in data.items():
+            for value in values:
+                extensions[value.lower()] = key
+
+ignore_files = [".gitignore", "organiser.py", "config.yaml"]
 
 def parse_directory():
     parser = argparse.ArgumentParser(description="Organise files in a directory by category")
@@ -100,6 +112,7 @@ def organise_files(directory, dry_run):
 
 def main():
     directory, dry_run = parse_directory()
+    load_extensions()
     organise_files(directory, dry_run)
 
 if __name__ == "__main__":

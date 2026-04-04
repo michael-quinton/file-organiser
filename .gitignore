@@ -1,0 +1,7 @@
+# Ignore everything
+*
+
+# Allow these files/folder
+!organiser.py
+!.gitignore
+!README.md
