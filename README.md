@@ -36,9 +36,9 @@ No external dependencies.
 
 ## Roadmap
 
-- [ ] `--dry-run` flag to preview changes without moving files
+- [x] `--dry-run` flag to preview changes without moving files
 - [ ] `--watch` mode for continuous monitoring
-- [ ] Configurable rules via YAML
+- [x] Configurable rules via YAML
 - [ ] `--undo` to reverse the last run
 - [ ] Logging
 - [ ] Tests
